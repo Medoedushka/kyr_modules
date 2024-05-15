@@ -7,9 +7,28 @@ import sys
 
 # TASKS:
 # - check input parameters: shape/values of <boxsize>, values of <h> and <axis>, type of <particles>
-# - add method description
 
-def calc_num_density3D(boxsize : tuple, particles : np.ndarray, h = 5, axis : int = 2):
+def numdensity3D(boxsize : tuple, particles : np.ndarray, h : int = 5, axis : int = 2) -> np.ndarray:
+	"""
+	Calculates a number density of particles inside a box with specified dimensions.
+
+	Parameters
+	----------
+	boxsize : tuple
+		A 3-tuple with components x, y, z that are specifing dimensions of a box.
+	particles : ndarray
+		NumPy ndarray of the shape (n, 3) with 3D coordinates of the n particles.
+	h : int, default=5
+		Specifies how datailed the number density function should be calculated.
+	axis : {0, 1, 2}
+		An axis along which the number density function will be calculated.
+
+	Returns
+	-------
+	rho : ndarray
+		A number denisty function with the shape (n, 2). Values at (n, 0) are corresponding to coordinates along the `axis`;
+		values at (n, 1) corresponding to the number density function.
+	"""
 
 	move = [0, 0, 0] # a vector that transform coordinatates of particles to internal coordinate system
 	move[axis] = min(particles[:,axis])
