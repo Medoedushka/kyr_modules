@@ -5,7 +5,7 @@ import subprocess
 import re
 import sys
 
-def numdensity3D(boxsize : tuple, particles : np.ndarray, h : int = 5, axis : int = 2) -> np.ndarray:
+def numdensity3D(boxsize : tuple, particles : np.ndarray, h : float = 1, axis : int = 2) -> np.ndarray:
 	"""
 	Calculates a number density of particles inside a box with specified dimensions.
 
@@ -15,7 +15,7 @@ def numdensity3D(boxsize : tuple, particles : np.ndarray, h : int = 5, axis : in
 		A 3-tuple with components x, y, z that are specifing dimensions of a box.
 	particles : ndarray
 		NumPy ndarray of the shape (n, 3) with 3D coordinates of the n particles.
-	h : int, default=5
+	h : float, default=1
 		Specifies how datailed the number density function should be calculated.
 	axis : {0, 1, 2}
 		An axis along which the number density function will be calculated.
