@@ -5,9 +5,6 @@ import subprocess
 import re
 import sys
 
-# TASKS:
-# - check input parameters: shape/values of <boxsize>, values of <h> and <axis>, type of <particles>
-
 def numdensity3D(boxsize : tuple, particles : np.ndarray, h : int = 5, axis : int = 2) -> np.ndarray:
 	"""
 	Calculates a number density of particles inside a box with specified dimensions.
@@ -29,6 +26,15 @@ def numdensity3D(boxsize : tuple, particles : np.ndarray, h : int = 5, axis : in
 		A number denisty function with the shape (n, 2). Values at (n, 0) are corresponding to coordinates along the `axis`;
 		values at (n, 1) corresponding to the number density function.
 	"""
+	
+	# Validation of input parameters
+	if (boxsize[0] == 0 or boxsize[1] == 0 or boxsize[2] == 0):
+		raise ValueError("Calculation of 3D number density function requieres a three dimensional box! \
+				   One of the submitted components is equal zero or missing.")
+	if (h <= 0):
+		raise ValueError("Wrong value of calculation step!")
+	if (not (axis in {0, 1, 2})):
+		raise ValueError("Improper axis value was submitted!")
 
 	move = [0, 0, 0] # a vector that transform coordinatates of particles to internal coordinate system
 	move[axis] = min(particles[:,axis])
