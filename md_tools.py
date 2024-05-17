@@ -36,21 +36,18 @@ def numdensity3D(boxsize : tuple, particles : np.ndarray, h : float = 1, axis : 
 	if (not (axis in {0, 1, 2})):
 		raise ValueError("Improper axis value was submitted!")
 
-	move = [0, 0, 0] # a vector that transform coordinatates of particles to internal coordinate system
-	move[axis] = min(particles[:,axis])
-	q_max = boxsize[axis] # maximum value of the internal coordinate q along which particles will be counted
+	q_max = max(particles[:, axis]) # maximum value of the internal coordinate q along which particles will be counted
 
 	# search for axes that will be constant
 	free_axis = [ax for ax in [0, 1, 2] if ax != axis]
 	L1 = boxsize[free_axis[0]]
 	L2 = boxsize[free_axis[1]]
-	transformed_cms = particles - move 
 
 	rho = np.ndarray(shape=(1,2))
-	q = 0
+	q = min(particles[:,axis])
 	counter = 0
 	while (q <= q_max):
-		for cms in transformed_cms:
+		for cms in particles:
 			if (cms[axis] >= q and cms[axis] <= (q + h)): counter += 1
 		rho_q = counter / (L1 * L2 * h)
 		rho = np.append(rho, [[q, rho_q]], axis=0)
