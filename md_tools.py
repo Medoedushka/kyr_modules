@@ -9,6 +9,13 @@ def numdensity3D(boxsize : tuple, particles : np.ndarray, h : float = 1, axis : 
 	"""
 	Calculates a number density of particles inside a box with specified dimensions.
 
+	Notes
+	-----
+	Calculation starts from the position (0, 0, 0), so make sure that coordinates of particles are correct transformed:
+	one of the verticies of the box must correspond to the point (0, 0, 0);
+	the box is laying within the first octant of the coordinate system;
+	all faces of the box are parallel to xy-, xz-, yz-plane. 
+
 	Parameters
 	----------
 	boxsize : tuple
@@ -24,7 +31,7 @@ def numdensity3D(boxsize : tuple, particles : np.ndarray, h : float = 1, axis : 
 	-------
 	rho : ndarray
 		A number denisty function with the shape (n, 2). Values at (n, 0) are corresponding to coordinates along the `axis`;
-		values at (n, 1) corresponding to the number density function.
+		values at (n,1) corresponding to the number density function.
 	"""
 	
 	# Validation of input parameters
@@ -36,7 +43,7 @@ def numdensity3D(boxsize : tuple, particles : np.ndarray, h : float = 1, axis : 
 	if (not (axis in {0, 1, 2})):
 		raise ValueError("Improper axis value was submitted!")
 
-	q_max = max(particles[:, axis]) # maximum value of the internal coordinate q along which particles will be counted
+	q_max = boxsize[axis] # maximum value of the internal coordinate q along which particles will be counted
 
 	# search for axes that will be constant
 	free_axis = [ax for ax in [0, 1, 2] if ax != axis]
@@ -44,7 +51,7 @@ def numdensity3D(boxsize : tuple, particles : np.ndarray, h : float = 1, axis : 
 	L2 = boxsize[free_axis[1]]
 
 	rho = np.ndarray(shape=(1,2))
-	q = min(particles[:,axis])
+	q = 0
 	counter = 0
 	while (q <= q_max):
 		for cms in particles:
